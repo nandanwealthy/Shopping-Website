@@ -1,15 +1,23 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from .managers import UserManager
+
 
 class User(AbstractUser):
-    """
-    Custom User model.
-    Inherits all fields and behavior from Django's AbstractUser.
-    We'll extend this model in future lessons.
-    """
-
     email = models.EmailField(unique=True)
 
+    username = models.CharField(
+        max_length=150,
+        blank=True,
+        null=True,
+    )
+
+    USERNAME_FIELD = "email"   #Use the email field as the unique identifier for authentication.
+
+    REQUIRED_FIELDS = []
+
+    objects = UserManager()
+
     def __str__(self):
-        return self.username
+        return self.email
